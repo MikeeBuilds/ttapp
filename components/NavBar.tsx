@@ -11,7 +11,7 @@ export default function NavBar() {
             <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                 <Link href={"/"}>
                     <Text fontWeight={"bold"}>
-                        Transfer Token
+                        Transfer Tokens To Family & Friends
                     </Text>
                 </Link>
                 {address && (
