@@ -1,6 +1,8 @@
 import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react";
 import { TRANSFER_CONTRACT_ADDRESS } from "../const/addresses";
-import { Card } from "@chakra-ui/react";
+import { Box, Card, Flex, Heading, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import TokenSelection from "./TokenSelection";
 
 export default function TransferCard() {
     const address = useAddress();
@@ -15,11 +17,31 @@ export default function TransferCard() {
     } = useContractRead(contract, 
         "getVerifiedTokens",
         );
-        console.log(verifiedTokens);
+
+        const [selectedToken, setSelectedToken] = useState("");
+        const handleTokenSelection = (tokenAddress: string) => {
+            setSelectedToken(tokenAddress);
+        }
 
         return (
             <Card w={"50%"} p={20}> 
+                <Heading fontWeight={"bold"}>Transfer</Heading>
 
+                <Text mt={4}>Select Token:</Text>
+                <Flex>
+                {!isVerifiedTokensLoading && 
+                    verifiedTokens.map((tokenAddress: string) => (
+                        <Box
+                            key={tokenAddress}
+                            onClick={() => handleTokenSelection(tokenAddress)}
+                        >
+                            <TokenSelection 
+                                tokenAddress={tokenAddress}
+                                isSelected={selectedToken === tokenAddress}
+                            />
+                        </Box>
+                    ))}
+                </Flex>
             </Card>
         )
 }
